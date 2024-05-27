@@ -51,9 +51,9 @@ def forward(model_name, iterations=10000):
     weights2 = model.layers[2].get_weights()[0]
     biases2 = model.layers[2].get_weights()[1]
 
-    def to_fixed(float_value, bits_past_radix=2):
-        a = float_value * (2 ** bits_past_radix)
-        b = int(round(a))
+    def to_fixed(float_value, bits_past_radix=10000000):
+        a = float_value * bits_past_radix
+        b = int(a)
         if a < 0:
             b = ~(abs(b)) + 1
         return b
