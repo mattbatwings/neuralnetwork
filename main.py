@@ -77,10 +77,10 @@ def forward(model_name, iterations=10000):
             for index, pixel in enumerate(X):
                 if pixel == 1:
                     weight += weights[index]
-                    check_overflow(weight, 8)
+                    check_overflow(weight, 10000000)
 
             weight += biases1.T[neuron]
-            check_overflow(weight, 8)
+            check_overflow(weight, 10000000)
 
             output[neuron] = int(weight)
 
@@ -99,10 +99,10 @@ def forward(model_name, iterations=10000):
             weight = 0
             for index, value in enumerate(hidden_out):
                 weight += weights[index] * np.int16(value)
-                check_overflow(weight, 16)
+                check_overflow(weight, 10000000)
 
             weight += biases2.T[neuron]
-            check_overflow(weight, 16)
+            check_overflow(weight, 10000000)
 
             output[neuron] = int(weight)
 
