@@ -51,9 +51,9 @@ def forward(model_name, iterations=10000):
     weights2 = model.layers[2].get_weights()[0]
     biases2 = model.layers[2].get_weights()[1]
 
-    def to_fixed(float_value, bits_past_radix=2):
-        a = float_value * (2 ** bits_past_radix)
-        b = int(round(a))
+    def to_fixed(float_value, bits_past_radix=10000000):
+        a = float_value * bits_past_radix
+        b = int(a)
         if a < 0:
             b = ~(abs(b)) + 1
         return b
@@ -77,10 +77,10 @@ def forward(model_name, iterations=10000):
             for index, pixel in enumerate(X):
                 if pixel == 1:
                     weight += weights[index]
-                    check_overflow(weight, 8)
+                    check_overflow(weight, 10000000)
 
             weight += biases1.T[neuron]
-            check_overflow(weight, 8)
+            check_overflow(weight, 10000000)
 
             output[neuron] = int(weight)
 
@@ -99,10 +99,10 @@ def forward(model_name, iterations=10000):
             weight = 0
             for index, value in enumerate(hidden_out):
                 weight += weights[index] * np.int16(value)
-                check_overflow(weight, 16)
+                check_overflow(weight, 10000000)
 
             weight += biases2.T[neuron]
-            check_overflow(weight, 16)
+            check_overflow(weight, 10000000)
 
             output[neuron] = int(weight)
 
